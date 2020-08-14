@@ -1,7 +1,7 @@
 # stdcontainers
 A collection of standard containers (lists, forward lists, ordereded lists, vectors, trees) for C.
 
-stdcontainers follows naming convention of the C++ stl containers when possible, making people feel instantly at home when using this library.
+stdcontainers follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
 
 stdcontainers is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
 
@@ -64,10 +64,16 @@ list provides an efficident sorting method with a O(nlogn) complexity. To effect
 A classic comparator for integers can be implemented as following:
 
 ```c
-int int_comparator(void* a, void* b)
+int int_comparator(const void* a, const void* b)
 {
     return *((int*)a) - *((int*)b);
 }
 ```
 
 ### Calling the sort function
+
+Once a comparator is defined, sorting a list is as simple as calling list_sort.
+
+```c
+list_sort(list, &int_comparator);
+```
