@@ -72,8 +72,27 @@ int int_comparator(const void* a, const void* b)
 
 ### Calling the sort function
 
-Once a comparator is defined, sorting a list is as simple as calling list_sort.
+Once a comparator is defined, it should be assigned to the list before calling list_sort.
 
 ```c
-list_sort(list, &int_comparator);
+list_set_comparator(list, &int_comparator);
+list_sort(list);
 ```
+
+A list without comparator cannot perform a sorting operation.
+
+If needed, it is possible to override the list's internal comparator by calling list_sort_with instead. For instance, given the comparator function below:
+
+```c
+int int_comparator_desc(const void* a, const void* b)
+{
+    return *((int*)b) - *((int*)a);
+}
+```
+
+A list of integers could be sorted in descending order without changing its internal comparator with:
+
+```c
+list_sort_with(list, &int_comparator_desc);
+```
+
