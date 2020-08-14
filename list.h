@@ -31,76 +31,96 @@ SOFTWARE.
 #define _LIST_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#ifndef LIST_NODE_T_DEFINED
 struct node_t {
     struct node_t* previous;
     struct node_t* next;
     uint8_t data[0];
 };
 typedef struct node_t node_t;
+#define LIST_NODE_T_DEFINED
+#endif
 
 typedef struct list_t {
     int size;
-    size_t data_size;
-    node_t* first;
-    node_t* last;
+    size_t size_type;
+    node_t* begin;
+    node_t* end;
+    int (*comparator)(const void*, const void*);
 }list_t;
 
 
 /**
- * @brief generate a list object that will contain objects of size_t data_size
- */
+  * @brief generate a list object that will contain objects of the specified size.
+  * @param  data_size: size in bytes of the elements to be stored in the list
+  * @return list that was just created
+  */
 list_t* list_create(size_t data_size);
 
 /**
- * @brief frees all memory allocated to the list and its elements
- */
-void list_free(list_t* list);
+  * @brief free all memory allocated to the list and its elements.
+  * @param  list: the list to be freed
+  * @note list's value will be set to NULL after being freed
+  */
+void list_free(list_t** list);
 
 /**
- * @brief clear and frees all elements of a list, without destroying the list itself
- */
+  * @brief clear and fres all elements of a list, without destroying the list itself.
+  * @param  list: the list to clear
+  */
 void list_clear(list_t* list);
 
 /**
- * @brief gets the n th element from a list
- * @param list the list to get the element from
- * @param n the 0-indexed element to get
- * @param data reference to an element of the list data type that will get the selected element
- * @return 0 on success, -1 otherwise
- * @warning do not iterate on a list using list_get. Complexity is O(n^2) 
- */
+  * @brief gets the n th element from a list
+  * @param   list: the list to get the element from
+  * @param   n: the 0-indexed element to get
+  * @param   data: reference to the list data type. The value will be copied over
+  * @return  0: success
+  *          -1: failure
+  * @warning do not iterate on a list using list_get. Complexity is O(n^2) 
+  */
 int list_get(list_t* list, int n, void* data);
 
 /**
- * @brief add data to the end of the list
- */
-int list_push_back(list_t* list, void* data);
+  * @brief add data to the end of the given list.
+  * @param  list: the list to add the item to
+  * @param  data: reference to the list's data type holding the value to be added
+  * @return 0: success
+  *         -1: failure
+  */
+int list_push_back(list_t* list, const void* data);
 
 /**
- * @brief alias for list_push_back
- */
+  * @brief alias for list_push_back
+  */
 #define list_push(list, data) list_push_back(list, data)
 
-/**
- * @brief add data in the list as per the comparison function provided
- */
-int list_add_ordered(list_t* list, void* data, int (*comp)(void*, void*));
-
 
 /**
- * @brief Remove an item from the beginning of the list
- */
+  * @brief remove the first item of the given list.
+  * data is optional. A NULL value is acceptable.
+  * @param  list: the list to remove the item from
+  * @param  data: reference to the list's data type where the poped value will be copied 
+  * @return 0: success
+  *         -1: failure
+  */
 int list_pop_front(list_t* list, void* data);
 
 
 /**
- * @brief Remove an item at the end of the list
- */
+  * @brief remove the last item of the given list.
+  * data is optional. A NULL value is acceptable.
+  * @param  list: the list to remove the item from
+  * @param  data: reference to the list's data type where the poped value will be copied
+  * @return 0: success
+  *         -1: failure
+  */
 int list_pop_back(list_t* list, void* data);
 
 /**
@@ -109,8 +129,12 @@ int list_pop_back(list_t* list, void* data);
 #define list_pop(list, data) list_pop_back(list, data)
 
 /**
- * @brief Get the first element of the list
- */
+  * @brief peek at the first item of the given list
+  * @param  list: the list to peek at
+  * @param  data: reference to the list's data type where the first value will be copied
+  * @return 0: success
+  *         -1: failure
+  */
 int list_peek_front(list_t* list, void* data);
 
 /**
@@ -119,10 +143,45 @@ int list_peek_front(list_t* list, void* data);
 #define list_peek(list, data) list_peek_front(list, data)
 
 
-int list_peek_front(list_t* list, void* data);
+/**
+  * @brief peek at the last item of the given list
+  * @param  list: the list to peek at
+  * @param  data: reference to the list's data type where the first value will be copied
+  * @return 0: success
+  *         -1: failure
+  */
+int list_peek_back(list_t* list, void* data);
 
 
-int list_sort(list_t* list, int (*comp)(void*, void*));
+/**
+ * @brief set the list's comparator that can be used for operations such as sorting
+ * @param  list: the list to set the comparator to
+ * @param  comp: a standard comparator function
+ * @return 0: success
+ *         -1: failure
+ * @code{c}
+ * // A typical comparator for integers would be defined as such:
+ * int int_comparator(const void* a, const void* b)
+ * {
+ *    return *((int*)a) - *((int*)b);
+ * }
+ * @endcode
+ */
+int list_set_comparator(list_t* list, int (*comp)(const void*, const void*));
+
+/**
+ * @brief Sorts the list according to its internal comparator
+ */
+int list_sort(list_t* list);
+
+/**
+ * @brief Sorts the list according to custom comparator
+ */
+int list_sort_with(list_t* list, int(*comp)(const void*, const void*));
+
+bool list_contains(list_t* list, const void* data);
+
+int list_add_ordered(list_t* list, const void* data);
 
 #ifdef __cplusplus
 }
