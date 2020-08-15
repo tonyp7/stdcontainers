@@ -36,13 +36,21 @@ SOFTWARE.
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #ifndef LIST_NODE_T_DEFINED
+
+#if defined(_MSC_VER)
+#pragma warning(push)
+#pragma warning(disable: 4200) /* C4200: nonstandard extension used: zero-sized array in struct/union */ 
+#endif
 struct node_t {
     struct node_t* previous;
     struct node_t* next;
     uint8_t data[0];
 };
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#endif
+
 typedef struct node_t node_t;
 #define LIST_NODE_T_DEFINED
 #endif
@@ -100,6 +108,16 @@ int list_push_back(list_t* list, const void* data);
   * @brief alias for list_push_back
   */
 #define list_push(list, data) list_push_back(list, data)
+
+
+/**
+  * @brief add data to the beginning of the given list.
+  * @param  list: the list to add the item to
+  * @param  data: reference to the list's data type holding the value to be added
+  * @return 0: success
+  *         -1: failure
+  */
+int list_push_front(list_t* list, const void* data);
 
 
 /**
