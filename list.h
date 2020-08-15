@@ -61,7 +61,7 @@ typedef struct list_t {
   * @param  data_size: size in bytes of the elements to be stored in the list
   * @return list that was just created
   */
-list_t* list_create(size_t data_size);
+list_t* list_create(size_t size_type);
 
 /**
   * @brief free all memory allocated to the list and its elements.
@@ -170,17 +170,47 @@ int list_peek_back(list_t* list, void* data);
 int list_set_comparator(list_t* list, int (*comp)(const void*, const void*));
 
 /**
- * @brief Sorts the list according to its internal comparator
+ * @brief sorts the given list according to its internal comparator
+ * @param   list: the list to sort
+ * @warning list_set_comparator must be called prior to calling list_sort
+ * @return  0: success
+ *          -1: failure
+ * @see list_set_comparator
  */
 int list_sort(list_t* list);
 
 /**
- * @brief Sorts the list according to custom comparator
+ * @brief sorts the given list according to the comparator passed as argument
+ * @param   list: the list to sort
+ * @param   comp: a standard comparator function
+ * @return  0: success
+ *          -1: failure
  */
 int list_sort_with(list_t* list, int(*comp)(const void*, const void*));
 
+/**
+  * @brief check if the list contains data
+  * @param      list: list to perform the operation on
+  * @param      data: reference to the list's data type holding the value to be found
+  * @return     true: data's value is found
+  *             false: otherwise
+  * @warning    list_set_comparator must be called prior to calling list_contains
+  * @see list_set_comparator
+  */
 bool list_contains(list_t* list, const void* data);
 
+/**
+ * @brief add data to the list while respecting the list's order
+ * In case the list should be ordered at all time, this should be the sole function used to insert
+ * nodes to the list. Calling list_add_ordered will ensure that all elements in the lists are naturally
+ * sorted without having to perform a sorting operation. 
+ * @param  list: the list to add the item to
+ * @param  data: reference to the list's data type holding the value to be added
+ * @return 0: success
+ *         -1: failure
+ * @warning    list_set_comparator must be called prior to calling list_contains
+ * @see list_set_comparator
+ */
 int list_add_ordered(list_t* list, const void* data);
 
 #ifdef __cplusplus

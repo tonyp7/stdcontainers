@@ -32,7 +32,7 @@ SOFTWARE.
 #include <stdint.h>
 #include "list.h"
 
-list_t* list_create(size_t data_size)
+list_t* list_create(size_t size_type)
 {
 
 	list_t* list = (list_t*)malloc(sizeof(list_t));
@@ -40,7 +40,7 @@ list_t* list_create(size_t data_size)
 	list->begin = NULL;
 	list->end = NULL;
 	list->size = 0;
-	list->size_type = data_size;
+	list->size_type = size_type;
 	list->comparator = NULL;
 
 	return list;
