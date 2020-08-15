@@ -1,13 +1,21 @@
 # stdcontainers
-A collection of standard containers (lists, forward lists, ordereded lists, vectors, trees) for C.
+A collection of standard containers (lists, sorted lists, stacks, queues, doublevectors, trees) for C. The collection includes:
+ 
+ - List
+ - Sorted list
+ - Stack
+ - Queue
+ - Double-ended queue (deque)
+ - Vector
+ - Binary tree
 
-stdcontainers follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
+_stdcontainers_ follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
 
-stdcontainers is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
+_stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
 
 # list.h
 
-List implements a generic doubly linked list, and is capable of holding any kind of data. This implementation does not rely on a void* to access its data: data is stored directly at the list node level.
+list.h implements a generic doubly linked list, and is capable of holding any kind of data. The data is held at the node level without relying on void* pointers. list.h is the underlying implementation of many containers: sorted lists, stacks, queues and deques.
 
 ## Basic example
 
@@ -72,8 +80,27 @@ int int_comparator(const void* a, const void* b)
 
 ### Calling the sort function
 
-Once a comparator is defined, sorting a list is as simple as calling list_sort.
+Once a comparator is defined, it should be assigned to the list before calling list_sort.
 
 ```c
-list_sort(list, &int_comparator);
+list_set_comparator(list, &int_comparator);
+list_sort(list);
 ```
+
+A list without comparator cannot perform a sorting operation.
+
+If needed, it is possible to override the list's internal comparator by calling list_sort_with instead. For instance, given the comparator function below:
+
+```c
+int int_comparator_desc(const void* a, const void* b)
+{
+    return *((int*)b) - *((int*)a);
+}
+```
+
+A list of integers could be sorted in descending order without changing its internal comparator with:
+
+```c
+list_sort_with(list, &int_comparator_desc);
+```
+
