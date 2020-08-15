@@ -80,9 +80,9 @@ void list_clear(list_t* list)
 }
 
 
-int list_get(list_t* list, int n, void* data)
+node_t* list_get(list_t* list, int n, void* data)
 {
-    if(n >= list->size) return -1;
+    if(n >= list->size) return NULL;
     
     int i=0;
     node_t* curr = list->begin;
@@ -95,7 +95,7 @@ int list_get(list_t* list, int n, void* data)
 		memcpy(data, curr->data, list->size_type);
 	}
     
-    return 0;
+    return curr;
 }
 
 int list_set_comparator(list_t* list, int (*comp)(const void*, const void*)) 
@@ -105,10 +105,10 @@ int list_set_comparator(list_t* list, int (*comp)(const void*, const void*))
 }
 
 
-int list_push_back(list_t* list, const void* data) 
+node_t* list_push_back(list_t* list, const void* data)
 {
 	node_t* node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
-	if(!node) return -1; /* memory alloc error */
+	if(!node) return NULL; /* memory alloc error */
 	
 	memcpy( node->data , data, list->size_type);
 
@@ -126,14 +126,14 @@ int list_push_back(list_t* list, const void* data)
 
 	list->size++;
 	
-	return 0;
+	return node;
 }
 
 
-int list_push_front(list_t* list, const void* data)
+node_t* list_push_front(list_t* list, const void* data)
 {
 	node_t* node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
-	if (!node) return -1; /* memory alloc error */
+	if (!node) return NULL; /* memory alloc error */
 
 	memcpy(node->data, data, list->size_type);
 
@@ -152,7 +152,7 @@ int list_push_front(list_t* list, const void* data)
 
 	list->size++;
 
-	return 0;
+	return node;
 }
 
 
@@ -222,7 +222,7 @@ int list_pop_back(list_t* list, void* data)
 }
 
 
-int list_peek_front(list_t* list, void* data)
+node_t* list_peek_front(list_t* list, void* data)
 {
     if (list->begin) {
 
@@ -230,25 +230,26 @@ int list_peek_front(list_t* list, void* data)
 			memcpy(data, list->begin->data, list->size_type);
 		}
         
-        return 0;
+        return list->begin;
     }
     else{
-        return -1;
+        return NULL;
     }
 }
 
 
-int list_peek_back(list_t* list, void* data)
+node_t* list_peek_back(list_t* list, void* data)
 {
 	if (list->end) {
+
 		if (data) {
 			memcpy(data, list->end->data, list->size_type);
 		}
 
-		return 0;
+		return list->end;
 	}
 	else {
-		return -1;
+		return NULL;
 	}
 }
 
@@ -501,16 +502,16 @@ int list_add_after(list_t* list, node_t* node, void* data)
 #pragma warning(push)
 #pragma warning(disable: 6011) /* C6011: dereferencing NULL pointer <name> */ 
 #endif
-static int list_add_ordered_with(list_t* list, const void* data, int (*comp)(const void*, const void*))
+static node_t* list_add_ordered_with(list_t* list, const void* data, int (*comp)(const void*, const void*))
 {
 
-	if (!data) return -1;
+	if (!data) return NULL;
 
 	if (list->size == 0) return list_push_back(list, data);
 
 	/* set node data */
 	node_t* new_node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
-	if (!new_node) return -1; /* memory alloc error */
+	if (!new_node) return NULL; /* memory alloc error */
 	memcpy(new_node->data, data, list->size_type);
 	
 	/* init position to the list beginning and copy data to the new node*/
@@ -543,20 +544,20 @@ static int list_add_ordered_with(list_t* list, const void* data, int (*comp)(con
 
 	list->size++;
 
-	return 0;
+	return new_node;
 }
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
 
 
-int list_add_ordered(list_t* list, const void* data) {
+node_t* list_add_ordered(list_t* list, const void* data) {
 
 	if (list->comparator) {
 		return list_add_ordered_with(list, data, list->comparator);
 	}
 	else {
-		return -1;
+		return NULL;
 	}
 
 }

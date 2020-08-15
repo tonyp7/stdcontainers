@@ -45,13 +45,13 @@ typedef list_t queue_t;
   */
 queue_t* (*queue_create)(size_t size_type) = list_create;
 
-int (*queue_push)(queue_t* queue, const void* data) = list_push_back;
+node_t* (*queue_push)(queue_t* queue, const void* data) = list_push_back;
 
 int (*queue_pop)(queue_t* queue, void* data) = list_pop_front;
 
-int (*queue_peek_front)(queue_t* queue, void* data) = list_peek_front;
+node_t* (*queue_peek_front)(queue_t* queue, void* data) = list_peek_front;
 
-int (*queue_peek_back)(queue_t* queue, void* data) = list_peek_back;
+node_t* (*queue_peek_back)(queue_t* queue, void* data) = list_peek_back;
 
 void (*queue_free)(queue_t** queue) = list_free;
 

@@ -89,20 +89,20 @@ void list_clear(list_t* list);
   * @param   list: the list to get the element from
   * @param   n: the 0-indexed element to get
   * @param   data: reference to the list data type. The value will be copied over
-  * @return  0: success
-  *          -1: failure
+  * @return  node_t*: pointer to the found node
+  *          NULL: nth node does not exist
   * @warning do not iterate on a list using list_get. Complexity is O(n^2) 
   */
-int list_get(list_t* list, int n, void* data);
+node_t* list_get(list_t* list, int n, void* data);
 
 /**
   * @brief add data to the end of the given list.
   * @param  list: the list to add the item to
   * @param  data: reference to the list's data type holding the value to be added
-  * @return 0: success
-  *         -1: failure
+  * @return node_t*: pointer to element added
+  *         NULL: failure
   */
-int list_push_back(list_t* list, const void* data);
+node_t* list_push_back(list_t* list, const void* data);
 
 /**
   * @brief alias for list_push_back
@@ -114,10 +114,10 @@ int list_push_back(list_t* list, const void* data);
   * @brief add data to the beginning of the given list.
   * @param  list: the list to add the item to
   * @param  data: reference to the list's data type holding the value to be added
-  * @return 0: success
-  *         -1: failure
+  * @return node_t*: pointer to element added
+  *         NULL: failure
   */
-int list_push_front(list_t* list, const void* data);
+node_t* list_push_front(list_t* list, const void* data);
 
 
 /**
@@ -150,10 +150,10 @@ int list_pop_back(list_t* list, void* data);
   * @brief peek at the first item of the given list
   * @param  list: the list to peek at
   * @param  data: reference to the list's data type where the first value will be copied
-  * @return 0: success
-  *         -1: failure
+  * @return node_t*: pointer to element
+  *         NULL: failure
   */
-int list_peek_front(list_t* list, void* data);
+node_t* list_peek_front(list_t* list, void* data);
 
 /**
  * @brief alias for list_peek_front
@@ -165,10 +165,10 @@ int list_peek_front(list_t* list, void* data);
   * @brief peek at the last item of the given list
   * @param  list: the list to peek at
   * @param  data: reference to the list's data type where the first value will be copied
-  * @return 0: success
-  *         -1: failure
+  * @return node_t*: pointer to element
+  *         NULL: failure
   */
-int list_peek_back(list_t* list, void* data);
+node_t* list_peek_back(list_t* list, void* data);
 
 
 /**
@@ -224,12 +224,12 @@ bool list_contains(list_t* list, const void* data);
  * sorted without having to perform a sorting operation. 
  * @param  list: the list to add the item to
  * @param  data: reference to the list's data type holding the value to be added
- * @return 0: success
- *         -1: failure
+ * @return node_t*: the node newly added
+ *         NULL: failure
  * @warning    list_set_comparator must be called prior to calling list_contains
  * @see list_set_comparator
  */
-int list_add_ordered(list_t* list, const void* data);
+node_t* list_add_ordered(list_t* list, const void* data);
 
 #ifdef __cplusplus
 }

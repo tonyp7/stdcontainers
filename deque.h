@@ -41,17 +41,17 @@ typedef list_t deque_t;
 
 deque_t* (*deque_create)(size_t size_type) = list_create;
 
-int (*deque_push_back)(deque_t* deque, const void* data) = list_push_back;
+node_t* (*deque_push_back)(deque_t* deque, const void* data) = list_push_back;
 
-int (*deque_push_front)(deque_t* deque, const void* data) = list_push_front;
+node_t* (*deque_push_front)(deque_t* deque, const void* data) = list_push_front;
 
 int (*deque_pop_front)(deque_t* deque, void* data) = list_pop_front;
 
 int (*deque_pop_back)(deque_t* deque, void* data) = list_pop_back;
 
-int (*deque_peek_front)(deque_t* deque, void* data) = list_peek_front;
+node_t* (*deque_peek_front)(deque_t* deque, void* data) = list_peek_front;
 
-int (*deque_peek_back)(deque_t* deque, void* data) = list_peek_back;
+node_t* (*deque_peek_back)(deque_t* deque, void* data) = list_peek_back;
 
 void (*deque_free)(deque_t** deque) = list_free;
 
