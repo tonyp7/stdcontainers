@@ -1,13 +1,21 @@
 # stdcontainers
-A collection of standard containers (lists, forward lists, ordereded lists, vectors, trees) for C.
+A collection of standard containers (lists, sorted lists, stacks, queues, doublevectors, trees) for C. The collection includes:
+ 
+ - List
+ - Sorted list
+ - Stack
+ - Queue
+ - Double-ended queue (deque)
+ - Vector
+ - Binary tree
 
-stdcontainers follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
+_stdcontainers_ follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
 
-stdcontainers is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
+_stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
 
 # list.h
 
-List implements a generic doubly linked list, and is capable of holding any kind of data. This implementation does not rely on a void* to access its data: data is stored directly at the list node level.
+list.h implements a generic doubly linked list, and is capable of holding any kind of data. The data is held at the node level without relying on void* pointers. list.h is the underlying implementation of many containers: sorted lists, stacks, queues and deques.
 
 ## Basic example
 
