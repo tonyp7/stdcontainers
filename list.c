@@ -130,6 +130,32 @@ int list_push_back(list_t* list, const void* data)
 }
 
 
+int list_push_front(list_t* list, const void* data)
+{
+	node_t* node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
+	if (!node) return -1; /* memory alloc error */
+
+	memcpy(node->data, data, list->size_type);
+
+	node->previous = NULL; /* sent to the beginning so there is no previous */
+
+	if (list->begin) {
+		node->next = list->begin;
+		node->next->previous = node;
+		list->begin = node;
+	}
+	else { /* first element in the list*/
+		list->begin = node;
+		list->end = node;
+		node->next = NULL;
+	}
+
+	list->size++;
+
+	return 0;
+}
+
+
 
 
 
