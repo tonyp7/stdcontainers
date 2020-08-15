@@ -37,6 +37,8 @@ list_t* list_create(size_t size_type)
 
 	list_t* list = (list_t*)malloc(sizeof(list_t));
 
+	if (!list) return NULL;
+
 	list->begin = NULL;
 	list->end = NULL;
 	list->size = 0;
