@@ -87,20 +87,84 @@ void vector_free(vector_t** vector);
  */
 int vector_sort(vector_t* vector, int (*comp)(const void*, const void*));
 
+/**
+  * @brief add data to the end of the vector
+  * @param		vector: the vector to perform the operation on
+  * @param		data: reference to the vector's data type holding the value to be added
+  * @return		0: success
+  *				-1: failure
+  */
 int vector_push_back(vector_t* vector, const void* data);
 
+/**
+  * @brief add data to the beginning of the vector
+  * @param		vector: the vector to perform the operation on
+  * @param		data: reference to the vector's data type holding the value to be added
+  * @return		0: success
+  *				-1: failure
+  * @note inserting values at the beginning or at a random location requires
+  * shifting the entire underlying array.
+  */
 int vector_push_front(vector_t* vector, const void* data);
 
+/**
+  * @brief add data at a the specified index
+  * @param		vector: the vector to perform the operation on
+  * @param		n: the 0 indexed n th value
+  * @param		data: reference to the vector's data type holding the value to be added
+  * @return		0: success
+  *				-1: failure
+  * @note data after the specified index will be shifted right 
+  */
 int vector_insert(vector_t* vector, int n, const void* data);
 
+/**
+  * @brief assign the given value to the data located at the specified index
+  * @param		vector: the vector to perform the operation on
+  * @param		n: the 0 indexed n th value
+  * @param		data: reference to the vector's data type
+  * @return		0: success
+  *				-1: failure
+  */
 int vector_assign(vector_t* vector, int n, const void* data);
 
+/**
+  * @brief remove the last value of the given vector
+  * data is optional. A NULL value is acceptable.
+  * @param		vector: the vector to perform the operation on
+  * @param		data: reference to the list's data type where the poped value will be copied
+  * @return		0: success
+  *				-1: failure
+  */
 int vector_pop_back(vector_t* vector, void* data);
 
+/**
+  * @brief remove the first value of the given vector
+  * data is optional. A NULL value is acceptable.
+  * @param		vector: the vector to perform the operation on
+  * @param		data: reference to the list's data type where the poped value will be copied
+  * @return		0: success
+  *				-1: failure
+  * @note the entire underlying array will be shifted left. vector_pop_front can be a costly operation.
+  */
 int vector_pop_front(vector_t* vector, void* data);
 
+/**
+  * @brief remove the n th element from the vector
+  * @param		vector: the vector to perform the operation on
+  * @param		n: the 0 indexed n th value
+  * @return		0: success
+  *				-1: failure
+  * @note the elements after the specified index will be shifted left. vector_erase can be a costly operation.
+  */
 int vector_erase(vector_t* vector, int n);
 
+/**
+  * @brief change the vector's capacity to match the exact number of elements it contains
+  * @param		vector: the vector to perform the operation on
+  * @return		0: success
+  *				-1: failure
+  */
 int vector_shrink_to_fit(vector_t* vector);
 
 /**
