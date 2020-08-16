@@ -32,19 +32,19 @@ list.h implements a generic doubly linked list, and is capable of holding any ki
 
 ```c
 /* create a list that will hold ints */
-list_t* list = list_create(sizeof(int));
+list_t list;
+list_create(&list, sizeof(int));
 
 /* push some randoms integers to the list */
 int data;
 for (int i = 0; i < 10; i++) {
     data = rand() % 100;
-    list_push(list, &data);
+    list_push(&list, &data);
 }
 
 printf("There are now %d elements in the list\n", list->size);
-list_clear(list);
+list_clear(&list);
 printf("There are now %d elements in the list\n", list->size);
-list_free(&list); /* list is now NULL */
 ```
 
 ## Iterating over a list
@@ -66,11 +66,12 @@ typedef struct vector3f {
 Storing this type of custom data in a list is just as simple as storing integers. Below is a simple example of how this can be achieved:
 
 ```c
-list_t* list = list_create(sizeof(vector3f));
+list_t list;
 vector3f v, out;
+list_create(&list, sizeof(vector3f));
 v.x = 1.0; v.y = 2.0f; v.z = 3.0f;
-list_push(list, &v);
-list_peek(list, &out);
+list_push(&list, &v);
+list_peek(&list, &out);
 printf("Vector in list is x:%f y:%f z:%f\n", out.x, out.y, out.z);
 ````
 
@@ -94,8 +95,8 @@ int int_comparator(const void* a, const void* b)
 Once a comparator is defined, it should be assigned to the list before calling list_sort.
 
 ```c
-list_set_comparator(list, &int_comparator);
-list_sort(list);
+list_set_comparator(&list, &int_comparator);
+list_sort(&list);
 ```
 
 A list without comparator cannot perform a sorting operation.
@@ -112,7 +113,7 @@ int int_comparator_desc(const void* a, const void* b)
 A list of integers could be sorted in descending order without changing its internal comparator with:
 
 ```c
-list_sort_with(list, &int_comparator_desc);
+list_sort_with(&list, &int_comparator_desc);
 ```
 
 ## List subtypes: Sorted List, Queue, Double-ended queue (deque)
