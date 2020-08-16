@@ -19,6 +19,10 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Basic example: a list of integers](#basic-example-a-list-of-integers)
    - [Iterating over a list](#iterating-over-a-list)
    - [Sorting a list](#sorting-a-list)
+   - [List subtypes](#list-subtypes)
+     - [Sorted List](#sorted-list)
+     - [Queue](#queue)
+     - [Double-ended queue (deque)](#double-ended-queue-deque)
  - [vector.h](#vectorh)
 
 # list.h
@@ -112,7 +116,15 @@ A list of integers could be sorted in descending order without changing its inte
 list_sort_with(list, &int_comparator_desc);
 ```
 
+## List subtypes
+
+### Sorted List
+
+### Queue
+
+### Double-ended queue (deque)
+
 # vector.h
 
-vector.h implements a dynamic array, and is capable of holding any kind of data. Because of it's nature, a vector is extremely efficient at accessing random elements O(1) and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
+vector.h implements a dynamic array, and is capable of holding any kind of data. Because of it's nature, a vector is extremely efficient at accessing random elements and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
 vector.h is the underlying implementation of stack.
