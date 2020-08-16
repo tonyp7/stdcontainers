@@ -49,9 +49,9 @@ node_t* (*queue_push)(queue_t* queue, const void* data) = list_push_back;
 
 int (*queue_pop)(queue_t* queue, void* data) = list_pop_front;
 
-node_t* (*queue_peek_front)(queue_t* queue, void* data) = list_peek_front;
+void* (*queue_front)(queue_t* queue) = list_front;
 
-node_t* (*queue_peek_back)(queue_t* queue, void* data) = list_peek_back;
+void* (*queue_back)(queue_t* queue) = list_back;
 
 void (*queue_clear)(queue_t* queue) = list_clear;
 

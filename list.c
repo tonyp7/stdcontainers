@@ -62,7 +62,7 @@ void list_clear(list_t* list)
 }
 
 
-node_t* list_get(list_t* list, int n, void* data)
+void* list_at(list_t* list, int n)
 {
     if(n >= list->size) return NULL;
     
@@ -73,11 +73,7 @@ node_t* list_get(list_t* list, int n, void* data)
         i++;
     }
 
-	if (data) {
-		memcpy(data, curr->data, list->size_type);
-	}
-    
-    return curr;
+    return (void*)curr->data;
 }
 
 int list_set_comparator(list_t* list, int (*comp)(const void*, const void*)) 
@@ -204,15 +200,10 @@ int list_pop_back(list_t* list, void* data)
 }
 
 
-node_t* list_peek_front(list_t* list, void* data)
+void* list_front(list_t* list)
 {
     if (list->begin) {
-
-		if (data) {
-			memcpy(data, list->begin->data, list->size_type);
-		}
-        
-        return list->begin;
+        return (void*)list->begin->data;
     }
     else{
         return NULL;
@@ -220,15 +211,10 @@ node_t* list_peek_front(list_t* list, void* data)
 }
 
 
-node_t* list_peek_back(list_t* list, void* data)
+void* list_back(list_t* list)
 {
 	if (list->end) {
-
-		if (data) {
-			memcpy(data, list->end->data, list->size_type);
-		}
-
-		return list->end;
+		return (void*)list->end->data;
 	}
 	else {
 		return NULL;

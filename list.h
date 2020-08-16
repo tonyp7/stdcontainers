@@ -84,12 +84,11 @@ void list_clear(list_t* list);
   * @brief gets the n th element from a list
   * @param   list: the list to get the element from
   * @param   n: the 0-indexed element to get
-  * @param   data: reference to the list data type. The value will be copied over
-  * @return  node_t*: pointer to the found node
+  * @return  void*: pointer to data
   *          NULL: nth node does not exist
   * @warning do not iterate on a list using list_get. Complexity is O(n^2) 
   */
-node_t* list_get(list_t* list, int n, void* data);
+void* list_at(list_t* list, int n);
 
 /**
   * @brief add data to the end of the given list.
@@ -145,26 +144,24 @@ int list_pop_back(list_t* list, void* data);
 /**
   * @brief peek at the first item of the given list
   * @param  list: the list to peek at
-  * @param  data: reference to the list's data type where the first value will be copied
-  * @return node_t*: pointer to element
+  * @return void*: pointer to data
   *         NULL: failure
   */
-node_t* list_peek_front(list_t* list, void* data);
+void* list_front(list_t* list);
 
 /**
  * @brief alias for list_peek_front
  */
-#define list_peek(list, data) list_peek_front(list, data)
+#define list_peek(list) list_front(list)
 
 
 /**
   * @brief peek at the last item of the given list
   * @param  list: the list to peek at
-  * @param  data: reference to the list's data type where the first value will be copied
-  * @return node_t*: pointer to element
+  * @return void*: pointer to data
   *         NULL: failure
   */
-node_t* list_peek_back(list_t* list, void* data);
+void* list_back(list_t* list);
 
 
 /**

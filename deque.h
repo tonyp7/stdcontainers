@@ -49,9 +49,9 @@ int (*deque_pop_front)(deque_t* deque, void* data) = list_pop_front;
 
 int (*deque_pop_back)(deque_t* deque, void* data) = list_pop_back;
 
-node_t* (*deque_peek_front)(deque_t* deque, void* data) = list_peek_front;
+void* (*dequ_front)(deque_t* deque) = list_front;
 
-node_t* (*deque_peek_back)(deque_t* deque, void* data) = list_peek_back;
+void* (*dequ_back)(deque_t* deque) = list_back;
 
 void (*deque_clear)(deque_t* queue) = list_clear;
 
