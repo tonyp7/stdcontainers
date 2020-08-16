@@ -55,6 +55,16 @@ typedef struct node_t node_t;
 #define LIST_NODE_T_DEFINED
 #endif
 
+#ifndef ITERATOR_T_DEFINED
+typedef struct iterator_t {
+    void* current;
+    void* begin;
+    void* end;
+    size_t size_type;
+}iterator_t;
+#define ITERATOR_T_DEFINED
+#endif
+
 typedef struct list_t {
     int size;
     size_t size_type;
@@ -80,6 +90,12 @@ int list_create(list_t* list, size_t size_type);
   */
 void list_clear(list_t* list);
 
+
+
+/*********************/
+/* element access    */
+/*********************/
+
 /**
   * @brief gets the n th element from a list
   * @param   list: the list to get the element from
@@ -89,6 +105,34 @@ void list_clear(list_t* list);
   * @warning do not iterate on a list using list_get. Complexity is O(n^2) 
   */
 void* list_at(list_t* list, int n);
+
+/**
+  * @brief peek at the first item of the given list
+  * @param  list: the list to peek at
+  * @return void*: pointer to data
+  *         NULL: failure
+  */
+void* list_front(list_t* list);
+
+/**
+ * @brief alias for list_peek_front
+ */
+#define list_peek(list) list_front(list)
+
+int list_assign(list_t* vector, int n, const void* data);
+
+/*********************/
+/* insertion         */
+/*********************/
+
+/**
+  * @brief add data to the beginning of the given list.
+  * @param  list: the list to add the item to
+  * @param  data: reference to the list's data type holding the value to be added
+  * @return node_t*: pointer to element added
+  *         NULL: failure
+  */
+node_t* list_push_front(list_t* list, const void* data);
 
 /**
   * @brief add data to the end of the given list.
@@ -104,27 +148,44 @@ node_t* list_push_back(list_t* list, const void* data);
   */
 #define list_push(list, data) list_push_back(list, data)
 
-
 /**
-  * @brief add data to the beginning of the given list.
-  * @param  list: the list to add the item to
-  * @param  data: reference to the list's data type holding the value to be added
-  * @return node_t*: pointer to element added
+  * @brief peek at the last item of the given list
+  * @param  list: the list to peek at
+  * @return void*: pointer to data
   *         NULL: failure
   */
-node_t* list_push_front(list_t* list, const void* data);
+void* list_back(list_t* list);
+
+/**
+ * @brief add data to the list while respecting the list's order
+ * In case the list should be ordered at all time, this should be the sole function used to insert
+ * nodes to the list. Calling list_add_ordered will ensure that all elements in the lists are naturally
+ * sorted without having to perform a sorting operation.
+ * @param  list: the list to add the item to
+ * @param  data: reference to the list's data type holding the value to be added
+ * @return node_t*: the node newly added
+ *         NULL: failure
+ * @warning    list_set_comparator must be called prior to calling list_contains
+ * @see list_set_comparator
+ */
+node_t* list_add_ordered(list_t* list, const void* data);
+
+int list_insert(list_t* vector, int n, const void* data);
+
+/*********************/
+/* deletion          */
+/*********************/
 
 
 /**
   * @brief remove the first item of the given list.
   * data is optional. A NULL value is acceptable.
   * @param  list: the list to remove the item from
-  * @param  data: reference to the list's data type where the poped value will be copied 
+  * @param  data: reference to the list's data type where the poped value will be copied
   * @return 0: success
   *         -1: failure
   */
 int list_pop_front(list_t* list, void* data);
-
 
 /**
   * @brief remove the last item of the given list.
@@ -141,27 +202,14 @@ int list_pop_back(list_t* list, void* data);
  */
 #define list_pop(list, data) list_pop_back(list, data)
 
-/**
-  * @brief peek at the first item of the given list
-  * @param  list: the list to peek at
-  * @return void*: pointer to data
-  *         NULL: failure
-  */
-void* list_front(list_t* list);
 
-/**
- * @brief alias for list_peek_front
- */
-#define list_peek(list) list_front(list)
+int list_erase(list_t*, int n);
 
 
-/**
-  * @brief peek at the last item of the given list
-  * @param  list: the list to peek at
-  * @return void*: pointer to data
-  *         NULL: failure
-  */
-void* list_back(list_t* list);
+
+/*********************/
+/* comparing         */
+/*********************/
 
 
 /**
@@ -209,20 +257,6 @@ int list_sort_with(list_t* list, int(*comp)(const void*, const void*));
   * @see list_set_comparator
   */
 bool list_contains(list_t* list, const void* data);
-
-/**
- * @brief add data to the list while respecting the list's order
- * In case the list should be ordered at all time, this should be the sole function used to insert
- * nodes to the list. Calling list_add_ordered will ensure that all elements in the lists are naturally
- * sorted without having to perform a sorting operation. 
- * @param  list: the list to add the item to
- * @param  data: reference to the list's data type holding the value to be added
- * @return node_t*: the node newly added
- *         NULL: failure
- * @warning    list_set_comparator must be called prior to calling list_contains
- * @see list_set_comparator
- */
-node_t* list_add_ordered(list_t* list, const void* data);
 
 #ifdef __cplusplus
 }
