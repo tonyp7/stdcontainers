@@ -71,7 +71,7 @@ vector3f v, out;
 list_create(&list, sizeof(vector3f));
 v.x = 1.0; v.y = 2.0f; v.z = 3.0f;
 list_push(&list, &v);
-list_peek(&list, &out);
+out = *(vector3f*)list_peek(&list);
 printf("Vector in list is x:%f y:%f z:%f\n", out.x, out.y, out.z);
 ````
 
