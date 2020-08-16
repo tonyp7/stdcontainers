@@ -40,13 +40,16 @@ typedef struct vector_t {
 	size_t size;
 	size_t capacity;
 	size_t size_type;
-	uint8_t data[0];
+	uint8_t* data;
 }vector_t;
 
 
-#define VECTOR_DEFAULT_INITIAL_SIZE 10
+#define VECTOR_DEFAULT_INITIAL_SIZE 2
+
 
 vector_t* vector_create(size_t size_type, size_t capacity);
+
+void vector_free(vector_t** vector);
 
 void* vector_at(vector_t* vector, int n);
 
@@ -54,13 +57,23 @@ int vector_sort(vector_t* vector, int (*comp)(const void*, const void*));
 
 int vector_push_back(vector_t* vector, const void* data);
 
+int vector_push_front(vector_t* vector, const void* data);
+
 int vector_insert(vector_t* vector, int n, const void* data);
 
+int vector_assign(vector_t* vector, int n, const void* data);
+
 int vector_pop_back(vector_t* vector, void* data);
+
+int vector_pop_front(vector_t* vector, void* data);
+
+int vector_erase(vector_t* vector, int n);
 
 void* vector_front(vector_t* vector);
 
 void* vector_back(vector_t* vector);
+
+
 
 #ifdef __cplusplus
 }
