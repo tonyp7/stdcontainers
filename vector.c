@@ -40,10 +40,6 @@ can use the shrink_to_fit API
 
 static inline int _vector_resize(vector_t* vector, size_t new_capacity)
 {
-	if (new_capacity < VECTOR_MINIMUM_CAPACITY) {
-		new_capacity = VECTOR_MINIMUM_CAPACITY;
-	}
-
 	void* new_data = realloc(vector->data, new_capacity * vector->size_type);
 
 	if (new_data) {
@@ -61,7 +57,11 @@ static inline int _vector_shrink_check(vector_t* vector)
 
 static inline int _vector_shrink(vector_t* vector)
 {
-	return _vector_resize(vector, vector->capacity >> 2);
+	size_t new_capacity = vector->capacity >> 2;
+	if (new_capacity < VECTOR_MINIMUM_CAPACITY) {
+		new_capacity = VECTOR_MINIMUM_CAPACITY;
+	}
+	return _vector_resize(vector, VECTOR_MINIMUM_CAPACITY);
 }
 
 static inline void* _vector_at(vector_t* vector, int n)
