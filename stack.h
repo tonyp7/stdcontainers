@@ -38,15 +38,13 @@ extern "C" {
 
 typedef vector_t stack_t;
 
-stack_t* (*stack_create)(size_t size_type) = vector_create;
+int (*stack_create)(stack_t* stack, size_t size_type) = vector_create;
 
 int (*stack_push)(stack_t* stack, const void* data) = vector_push_back;
 
 int (*stack_pop)(stack_t* stack, void* data) = vector_pop_back;
 
 void* (*stack_peek)(stack_t* stack) = vector_back;
-
-void (*stack_free)(stack_t** stack) = vector_free;
 
 void (*stack_clear)(stack_t* stack) = vector_clear;
 

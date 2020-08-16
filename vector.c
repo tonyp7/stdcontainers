@@ -111,16 +111,14 @@ static inline int _vector_shift_left(vector_t* vector, int n)
 }
 
 
-vector_t* vector_create(size_t size_type)
+int vector_create(vector_t* vector, size_t size_type)
 {
-	return vector_create_with(size_type, VECTOR_DEFAULT_INITIAL_SIZE);
+	return vector_create_with(vector, size_type, VECTOR_DEFAULT_INITIAL_SIZE);
 }
 
-vector_t* vector_create_with(size_t size_type, size_t capacity)
+int vector_create_with(vector_t* vector, size_t size_type, size_t capacity)
 {
-	vector_t* vector = malloc(sizeof(vector_t) + sizeof(uint8_t) * (capacity * size_type) );
-
-	if (!vector) return NULL;
+	if (!vector) return -1;
 	if (capacity <= 0) capacity = VECTOR_DEFAULT_INITIAL_SIZE;
 
 	vector->capacity = capacity;
@@ -130,11 +128,10 @@ vector_t* vector_create_with(size_t size_type, size_t capacity)
 	vector->data = malloc(capacity * size_type);
 
 	if (!vector->data) {
-		free(vector);
-		vector = NULL;
+		return -1;
 	}
 
-	return vector;
+	return 0;
 }
 
 
@@ -148,18 +145,6 @@ void vector_clear(vector_t* vector)
 		}
 	}
 }
-
-void vector_free(vector_t** vector)
-{
-	if (*vector) {
-
-		free((*vector)->data);
-		free(*vector);
-
-		*vector = NULL;
-	}
-}
-
 
 
 void* vector_at(vector_t* vector, int n)

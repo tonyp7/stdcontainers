@@ -48,28 +48,23 @@ typedef struct vector_t {
 #define VECTOR_MINIMUM_CAPACITY 2
 
 /**
-  * @brief create an empty vector with an initial capacity of VECTOR_DEFAULT_INITIAL_SIZE
+  * @brief initialize an empty vector with an initial capacity of VECTOR_DEFAULT_INITIAL_SIZE
+  * @param      vector: pointer to the vector_t struct to be initialized
   * @param		size_type: size in bytes of the elements to be stored
-  * @return		vector_t*: success
-  *				NULL: failure
+  * @return		0: success
+  *				-1: failure
   */
-vector_t* vector_create(size_t size_type);
+int vector_create(vector_t* vector, size_t size_type);
 
 /**
-  * @brief create an empty vector with an initial capacity of VECTOR_DEFAULT_INITIAL_SIZE
+  * @brief initialize an empty vector with the specified initial capacity
+  * @param      vector: pointer to the vector_t struct to be initialized
   * @param		size_type: size in bytes of the elements to be stored
   * @param		capacity: initial capacity in number of elements that will be allocated
-  * @return		vector_t*: success
-  *				NULL: failure
+  * @return		0: success
+  *				-1: failure
   */
-vector_t* vector_create_with(size_t size_type, size_t capacity);
-
-/**
-  * @brief free all memory allocated to the vector and its elements.
-  * @param  vector: the vector to perform the operation on
-  * @note vector's value will be set to NULL after being freed
-  */
-void vector_free(vector_t** vector);
+int vector_create_with(vector_t* vector, size_t size_type, size_t capacity);
 
 
 /**
