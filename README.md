@@ -1,5 +1,5 @@
 # stdcontainers
-A collection of standard containers (lists, sorted lists, stacks, queues, doublevectors, trees) for C. The collection includes:
+A collection of standard containers (lists, sorted lists, stacks, queues, vectors, trees) for C. The collection includes:
  
  - List
  - Sorted list
@@ -13,11 +13,19 @@ _stdcontainers_ follows naming conventions of the C++ stl containers when possib
 
 _stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
 
+# Content
+
+ - [list.h](#listh)
+   - [Basic example: a list of integers](#basic-example-a-list-of-integers)
+   - [Iterating over a list](#iterating-over-a-list)
+   - [Sorting a list](#sorting-a-list)
+ - [vector.h](#vectorh)
+
 # list.h
 
-list.h implements a generic doubly linked list, and is capable of holding any kind of data. The data is held at the node level without relying on void* pointers. list.h is the underlying implementation of many containers: sorted lists, stacks, queues and deques.
+list.h implements a generic doubly linked list, and is capable of holding any kind of data. The data is held at the node level without relying on void* pointers. list.h is the underlying implementation of many containers: sorted lists, queues and deques.
 
-## Basic example
+## Basic example: a list of integers
 
 ```c
 /* create a list that will hold ints */
@@ -63,7 +71,7 @@ list_peek(list, &out);
 printf("Vector in list is x:%f y:%f z:%f\n", out.x, out.y, out.z);
 ````
 
-## Sorting
+## Sorting a list
 
 list provides an efficident sorting method with a O(nlogn) complexity. To effectively sort a list, a comparator must be provided. Comparators are implemented with a int(void* a, void* b) signature. If the return value is negative, a is smaller than b. If the return value is 0, a equals b. If there return value is positive, a is bigger than b.
 
@@ -104,3 +112,7 @@ A list of integers could be sorted in descending order without changing its inte
 list_sort_with(list, &int_comparator_desc);
 ```
 
+# vector.h
+
+vector.h implements a dynamic array, and is capable of holding any kind of data. Because of it's nature, a vector is extremely efficient at accessing random elements O(1) and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
+vector.h is the underlying implementation of stack.
