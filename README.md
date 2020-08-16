@@ -19,7 +19,7 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Basic example: a list of integers](#basic-example-a-list-of-integers)
    - [Iterating over a list](#iterating-over-a-list)
    - [Sorting a list](#sorting-a-list)
-   - [List subtypes](#list-subtypes)
+   - [List subtypes: sorted list, queue, double-ended queue (deque)](#list-subtypes-sorted-list-queue-double-ended-queue-deque)
  - [vector.h](#vectorh)
  - [btree.h](#btreeh)
  - [Benchmarks](#benchmarks)
