@@ -24,6 +24,8 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
      - [Queue](#queue)
      - [Double-ended queue (deque)](#double-ended-queue-deque)
  - [vector.h](#vectorh)
+ - [btree.h](#btreeh)
+ - [Benchmarks](#benchmarks)
 
 # list.h
 
