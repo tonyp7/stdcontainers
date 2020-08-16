@@ -32,12 +32,9 @@ SOFTWARE.
 #include <stdint.h>
 #include "list.h"
 
-list_t* list_create(size_t size_type)
+int list_create(list_t* list, size_t size_type)
 {
-
-	list_t* list = (list_t*)malloc(sizeof(list_t));
-
-	if (!list) return NULL;
+	if (!list) return -1;
 
 	list->begin = NULL;
 	list->end = NULL;
@@ -45,24 +42,7 @@ list_t* list_create(size_t size_type)
 	list->size_type = size_type;
 	list->comparator = NULL;
 
-	return list;
-}
-
-
-void list_free(list_t** list_ptr) 
-{
-	list_t* list = *list_ptr;
-	node_t* next;
-	node_t* curr = list->begin;
-
-	while (curr != NULL) {
-		next = curr->next;
-		free(curr);
-		curr = next;
-	}
-
-	free(list);
-	*list_ptr = NULL;
+	return 0;
 }
 
 void list_clear(list_t* list)

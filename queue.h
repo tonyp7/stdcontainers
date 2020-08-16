@@ -43,7 +43,7 @@ typedef list_t queue_t;
   * @param  data_size: size in bytes of the elements to be stored in the queue
   * @return queue that was just created
   */
-queue_t* (*queue_create)(size_t size_type) = list_create;
+int (*queue_create)(queue_t* queue, size_t size_type) = list_create;
 
 node_t* (*queue_push)(queue_t* queue, const void* data) = list_push_back;
 
@@ -53,7 +53,7 @@ node_t* (*queue_peek_front)(queue_t* queue, void* data) = list_peek_front;
 
 node_t* (*queue_peek_back)(queue_t* queue, void* data) = list_peek_back;
 
-void (*queue_free)(queue_t** queue) = list_free;
+void (*queue_clear)(queue_t* queue) = list_clear;
 
 #ifdef __cplusplus
 }

@@ -65,18 +65,14 @@ typedef struct list_t {
 
 
 /**
-  * @brief generate a list object that will contain objects of the specified size.
-  * @param  data_size: size in bytes of the elements to be stored in the list
-  * @return list that was just created
+  * @brief initialialize a list object that will contain objects of the specified size.
+  * @param      list: pointer to the list_t struct to be initialized
+  * @param      data_size: size in bytes of the elements to be stored in the list
+  * @return     0: success
+  *             1: failure
   */
-list_t* list_create(size_t size_type);
+int list_create(list_t* list, size_t size_type);
 
-/**
-  * @brief free all memory allocated to the list and its elements.
-  * @param  list: the list to be freed
-  * @note list's value will be set to NULL after being freed
-  */
-void list_free(list_t** list);
 
 /**
   * @brief clear and fres all elements of a list, without destroying the list itself.

@@ -39,7 +39,7 @@ extern "C" {
 
 typedef list_t deque_t;
 
-deque_t* (*deque_create)(size_t size_type) = list_create;
+int (*deque_create)(deque_t* deque, size_t size_type) = list_create;
 
 node_t* (*deque_push_back)(deque_t* deque, const void* data) = list_push_back;
 
@@ -53,7 +53,7 @@ node_t* (*deque_peek_front)(deque_t* deque, void* data) = list_peek_front;
 
 node_t* (*deque_peek_back)(deque_t* deque, void* data) = list_peek_back;
 
-void (*deque_free)(deque_t** deque) = list_free;
+void (*deque_clear)(deque_t* queue) = list_clear;
 
 #ifdef __cplusplus
 }
