@@ -45,6 +45,7 @@ typedef struct vector_t {
 
 
 #define VECTOR_DEFAULT_INITIAL_SIZE 2
+#define VECTOR_MINIMUM_CAPACITY 2
 
 /**
   * @brief create an empty vector with an initial capacity of VECTOR_DEFAULT_INITIAL_SIZE
@@ -69,6 +70,13 @@ vector_t* vector_create_with(size_t size_type, size_t capacity);
   * @note vector's value will be set to NULL after being freed
   */
 void vector_free(vector_t** vector);
+
+
+/**
+  * @brief clears all elements of the vector
+  * @param  vector: the vector to perform the operation on
+  */
+void vector_clear(vector_t* vector);
 
 /**
  * @brief sort the given vector according to the comparator passed as argument
