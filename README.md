@@ -20,9 +20,6 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Iterating over a list](#iterating-over-a-list)
    - [Sorting a list](#sorting-a-list)
    - [List subtypes](#list-subtypes)
-     - [Sorted List](#sorted-list)
-     - [Queue](#queue)
-     - [Double-ended queue (deque)](#double-ended-queue-deque)
  - [vector.h](#vectorh)
  - [btree.h](#btreeh)
  - [Benchmarks](#benchmarks)
@@ -118,13 +115,25 @@ A list of integers could be sorted in descending order without changing its inte
 list_sort_with(list, &int_comparator_desc);
 ```
 
-## List subtypes
+## List subtypes: Sorted List, Queue, Double-ended queue (deque)
 
-### Sorted List
+You can restrict the general implementation of list.h by using specialized containers. For instance, it is impossible to add an element to the front of a queue. A queue is a first in first out structure where the elements are always added at the back.
 
-### Queue
+Below is a table summarizing what can and can't be done with the specialized containers:
 
-### Double-ended queue (deque)
+| Action  | Description | Sorted List | Queue | Deque | Note |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| at | access a ramdom element | <ul><li>- [x] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | |
+| front | access the first element | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | |
+| back | access the last element | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | |
+| insert | insert at random location | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | |
+| push_front | insert at beginning | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [x] </li><ul> | |
+| push_back | insert at end | <ul><li>- [ ] </li><ul> | <ul><li>- [X] </li><ul> | <ul><li>- [x] </li><ul> | queue's push_back is simply known as push |
+| add_ordered | insert in order | <ul><li>- [x] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | sorted's list only allowed operation to add an item |
+| erase | remove a random element | <ul><li>- [x] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | |
+| pop_front | remove the first element | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | <ul><li>- [x] </li><ul> | queue's pop_front is simply known as pop |
+| pop_back | remove the last element | <ul><li>- [x] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [x] </li><ul> | |
+| sort | sort the list | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | <ul><li>- [ ] </li><ul> | a sorted list is naturally sorted |
 
 # vector.h
 
