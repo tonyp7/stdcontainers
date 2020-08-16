@@ -123,7 +123,7 @@ Below is a table summarizing what can and can't be done with the specialized con
 
 | Action  | Description | Sorted List | Queue | Deque | Note |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| at | access a ramdom element | :heavy_check_mark: |  |  | |
+| at | access a ramdom element | :heavy_check_mark: | :x: | :x: | |
 | front | access the first element | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | back | access the last element | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
 | insert | insert at random location | :x: | :x: | :x: | |
