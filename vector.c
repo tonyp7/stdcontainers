@@ -107,7 +107,12 @@ static inline int _vector_shift_left(vector_t* vector, int n)
 }
 
 
-vector_t* vector_create(size_t size_type, size_t capacity)
+vector_t* vector_create(size_t size_type)
+{
+	return vector_create_with(size_type, VECTOR_DEFAULT_INITIAL_SIZE);
+}
+
+vector_t* vector_create_with(size_t size_type, size_t capacity)
 {
 	vector_t* vector = malloc(sizeof(vector_t) + sizeof(uint8_t) * (capacity * size_type) );
 
@@ -273,4 +278,20 @@ void* vector_back(vector_t* vector)
 		return NULL;
 	}
 	
+}
+
+
+int vector_shrink_to_fit(vector_t* vector)
+{
+	if (vector->size && vector->size != vector->capacity) {
+		
+		if (_vector_resize(vector, vector->size)) {
+			return 0;
+		}
+		else {
+			return -1;
+		}
+	}
+	return -1;
+
 }
