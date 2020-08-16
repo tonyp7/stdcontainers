@@ -19,11 +19,10 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Basic example: a list of integers](#basic-example-a-list-of-integers)
    - [Iterating over a list](#iterating-over-a-list)
    - [Sorting a list](#sorting-a-list)
-   - [List subtypes](#list-subtypes)
-     - [Sorted List](#sorted-list)
-     - [Queue](#queue)
-     - [Double-ended queue (deque)](#double-ended-queue-deque)
+   - [List subtypes: sorted list, queue, double-ended queue (deque)](#list-subtypes-sorted-list-queue-double-ended-queue-deque)
  - [vector.h](#vectorh)
+ - [btree.h](#btreeh)
+ - [Benchmarks](#benchmarks)
 
 # list.h
 
@@ -116,13 +115,25 @@ A list of integers could be sorted in descending order without changing its inte
 list_sort_with(list, &int_comparator_desc);
 ```
 
-## List subtypes
+## List subtypes: Sorted List, Queue, Double-ended queue (deque)
 
-### Sorted List
+You can restrict the general implementation of list.h by using specialized containers. For instance, it is impossible to add an element to the front of a queue. A queue is a first in first out structure where the elements are always added at the back.
 
-### Queue
+Below is a table summarizing what can and can't be done with the specialized containers:
 
-### Double-ended queue (deque)
+| Action  | Description | Sorted List | Queue | Deque | Note |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| at | access a ramdom element | :heavy_check_mark: | :x: | :x: | |
+| front | access the first element | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| back | access the last element | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | |
+| insert | insert at random location | :x: | :x: | :x: | |
+| push_front | insert at beginning | :x: | :x: | :heavy_check_mark: | |
+| push_back | insert at end | :x: | :heavy_check_mark: | :heavy_check_mark: | queue's push_back is simply known as push |
+| add_ordered | insert in order | :heavy_check_mark: | :x: | :x: | sorted's list only allowed operation to add an item |
+| erase | remove a random element | :heavy_check_mark: | :x: | :x: | |
+| pop_front | remove the first element | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | queue's pop_front is simply known as pop |
+| pop_back | remove the last element | :heavy_check_mark: | :x: | :heavy_check_mark: | |
+| sort | sort the list | :x: | :x: | :x: | a sorted list is naturally sorted |
 
 # vector.h
 
