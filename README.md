@@ -1,14 +1,6 @@
 # stdcontainers
-A collection of standard containers (lists, sorted lists, stacks, queues, vectors, trees) for C. The collection includes:
+A collection of standard containers (lists, sorted lists, stacks, queues, deques, vectors) for C.
  
- - List
- - Sorted list
- - Stack
- - Queue
- - Double-ended queue (deque)
- - Vector
- - Binary tree
-
 _stdcontainers_ follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
 
 _stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
@@ -49,7 +41,26 @@ printf("There are now %d elements in the list\n", list->size);
 
 ## Iterating over a list
 
-lists are meant to be iterated over using links instead of using indexes. While it is technically possible to iterate over a list using indexes, it is highly discouraged as it introduce a O(n^2) loop in your program.
+lists are meant to be iterated over using links instead of using indexes. While it is technically possible to iterate over a list using indexes, it is highly discouraged as it introduce a O(n^2) loop --n(n+1) / 2 operations to be precise-- in your program.
+
+```c
+/* DO NOT DO THIS */
+for(int i=0, *value; i<list.size; i++){
+    value = list_at(&list, i);
+    printf("%d ", *value);
+}
+```
+
+iterating through a list should be done by going through each individual node. As in:
+
+```c
+/* this an example of an extremely efficient list iteration */
+int *value;
+for(node_t* node = list.begin; node != NULL; node = node->next){
+    value = (int*)node->data;
+    printf("%d ", *value);
+}
+```
 
 ## Storing complex types
 
@@ -140,3 +151,35 @@ Below is a table summarizing what can and can't be done with the specialized con
 
 vector.h implements a dynamic array, and is capable of holding any kind of data. Because of it's nature, a vector is extremely efficient at accessing random elements and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
 vector.h is the underlying implementation of stack.
+
+## Basic example: a vector of integers
+
+
+## Iterating over a vector
+
+A vector is a dynamic array. At its heart, it is still an array. This means it is entirely possible to iterate over a vector like you would do with a normal array. The example below demonstrates this:
+
+```c
+/* IMPORTANT: see vector caveat */
+int* data = (int*)vector_front(&vector);
+for(int i=0; i<vector.size; i++){
+    printf("%d ", data[i]);
+}
+```
+
+### Vector caveat
+
+As the vector dynamically grows and shrinks, its internal data pointer may change location as the underlying memory allocation implementation may see fit. As a result, you should not rely on a local pointer to the internal array as demonstrated above. A safer iteration as demonstrated above can be done as following:
+
+```c
+int* data;
+for(int i=0; i<vector.size; i++){
+    data = (int*)vector_at(&vector, i);
+    printf("%d ", *data);
+}
+```
+
+If your code is mono-threaded and no insertion/deletion are done while iterating, both methods are valid. Please do note that no 
+
+
+
