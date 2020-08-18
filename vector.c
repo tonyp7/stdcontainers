@@ -43,7 +43,7 @@ static inline int _vector_resize(vector_t* vector, size_t new_capacity)
 	void* new_data = realloc(vector->data, new_capacity * vector->size_type);
 
 	if (new_data) {
-		vector->data = new_data;
+		vector->data = (uint8_t*)new_data;
 		vector->capacity = new_capacity;
 	}
 	return new_data != NULL;
@@ -125,7 +125,7 @@ int vector_create_with(vector_t* vector, size_t size_type, size_t capacity)
 	vector->size_type = size_type;
 	vector->size = 0;
 
-	vector->data = malloc(capacity * size_type);
+	vector->data = (uint8_t*)malloc(capacity * size_type);
 
 	if (!vector->data) {
 		return -1;
@@ -144,6 +144,16 @@ void vector_clear(vector_t* vector)
 			_vector_shrink(vector);
 		}
 	}
+}
+
+
+void vector_destroy(vector_t* vector)
+{
+    if(vector && vector->data){
+        free(vector->data);
+    }
+    
+    memset(vector, 0x00, sizeof(vector_t));
 }
 
 
@@ -207,7 +217,7 @@ int vector_pop_back(vector_t* vector, void* data)
 	/* optional: get the pop'd data back */
 	if (data) {
 		void* src = _vector_at(vector, vector->size - 1);
-		_vector_assign_ptr(data, src, vector->size_type);
+		_vector_assign_ptr(vector, data, src);
 	}
 
 	vector->size--;
@@ -227,7 +237,7 @@ int vector_pop_front(vector_t* vector, void* data)
 
 	/* optional: get the pop'd data back */
 	if (data) {
-		_vector_assign_ptr(data, vector->data, vector->size_type);
+		_vector_assign_ptr(vector, data, vector->data);
 	}
 
 	_vector_shift_left(vector, 0);
@@ -244,7 +254,7 @@ int vector_pop_front(vector_t* vector, void* data)
 
 int vector_erase(vector_t* vector, int n)
 {
-	if (vector->size == 0 || n >= vector->size) return -1;
+	if (vector->size == 0 || (size_t)n >= vector->size) return -1;
 
 	_vector_shift_left(vector, n);
 

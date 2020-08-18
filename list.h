@@ -55,15 +55,7 @@ typedef struct node_t node_t;
 #define LIST_NODE_T_DEFINED
 #endif
 
-#ifndef ITERATOR_T_DEFINED
-typedef struct iterator_t {
-    void* current;
-    void* begin;
-    void* end;
-    size_t size_type;
-}iterator_t;
-#define ITERATOR_T_DEFINED
-#endif
+
 
 typedef struct list_t {
     int size;
@@ -85,10 +77,20 @@ int list_create(list_t* list, size_t size_type);
 
 
 /**
-  * @brief clear and fres all elements of a list, without destroying the list itself.
+  * @brief clear and frees all elements of a list.
   * @param  list: the list to clear
   */
 void list_clear(list_t* list);
+
+
+/**
+  * @brief clear and frees all elements of a list.
+  * @param  list: the list to perform the operation on
+  * @note because a list does not have any overhead, list_destroy and list_clear perform
+  * almost the same operation. In addition to freeing all memory, destroy also
+  * bzero's the struct list_t
+  */
+void list_destroy(list_t* list);
 
 
 
@@ -157,17 +159,17 @@ node_t* list_push_back(list_t* list, const void* data);
 void* list_back(list_t* list);
 
 /**
- * @brief add data to the list while respecting the list's order
- * In case the list should be ordered at all time, this should be the sole function used to insert
- * nodes to the list. Calling list_add_ordered will ensure that all elements in the lists are naturally
- * sorted without having to perform a sorting operation.
- * @param  list: the list to add the item to
- * @param  data: reference to the list's data type holding the value to be added
- * @return node_t*: the node newly added
- *         NULL: failure
- * @warning    list_set_comparator must be called prior to calling list_contains
- * @see list_set_comparator
- */
+  * @brief add data to the list while respecting the list's order
+  * In case the list should be ordered at all time, this should be the sole function used to insert
+  * nodes to the list. Calling list_add_ordered will ensure that all elements in the lists are naturally
+  * sorted without having to perform a sorting operation.
+  * @param  list: the list to add the item to
+  * @param  data: reference to the list's data type holding the value to be added
+  * @return node_t*: the node newly added
+  *         NULL: failure
+  * @warning    list_set_comparator must be called prior to calling list_contains
+  * @see list_set_comparator
+  */
 node_t* list_add_ordered(list_t* list, const void* data);
 
 int list_insert(list_t* vector, int n, const void* data);
@@ -213,38 +215,38 @@ int list_erase(list_t*, int n);
 
 
 /**
- * @brief set the list's comparator that can be used for operations such as sorting
- * @param  list: the list to set the comparator to
- * @param  comp: a standard comparator function
- * @return 0: success
- *         -1: failure
- * @code{c}
- * // A typical comparator for integers would be defined as such:
- * int int_comparator(const void* a, const void* b)
- * {
- *    return *((int*)a) - *((int*)b);
- * }
- * @endcode
- */
+  * @brief set the list's comparator that can be used for operations such as sorting
+  * @param  list: the list to set the comparator to
+  * @param  comp: a standard comparator function
+  * @return 0: success
+  *         -1: failure
+  * @code{c}
+  * // A typical comparator for integers would be defined as such:
+  * int int_comparator(const void* a, const void* b)
+  * {
+  *    return *((int*)a) - *((int*)b);
+  * }
+  * @endcode
+  */
 int list_set_comparator(list_t* list, int (*comp)(const void*, const void*));
 
 /**
- * @brief sorts the given list according to its internal comparator
- * @param   list: the list to sort
- * @warning list_set_comparator must be called prior to calling list_sort
- * @return  0: success
- *          -1: failure
- * @see list_set_comparator
- */
+  * @brief sorts the given list according to its internal comparator
+  * @param   list: the list to sort
+  * @warning list_set_comparator must be called prior to calling list_sort
+  * @return  0: success
+  *          -1: failure
+  * @see list_set_comparator
+  */
 int list_sort(list_t* list);
 
 /**
- * @brief sorts the given list according to the comparator passed as argument
- * @param   list: the list to sort
- * @param   comp: a standard comparator function
- * @return  0: success
- *          -1: failure
- */
+  * @brief sorts the given list according to the comparator passed as argument
+  * @param   list: the list to sort
+  * @param   comp: a standard comparator function
+  * @return  0: success
+  *          -1: failure
+  */
 int list_sort_with(list_t* list, int(*comp)(const void*, const void*));
 
 /**

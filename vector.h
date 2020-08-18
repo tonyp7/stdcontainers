@@ -74,6 +74,12 @@ int vector_create_with(vector_t* vector, size_t size_type, size_t capacity);
 void vector_clear(vector_t* vector);
 
 /**
+  * @brief frees all memory allocated to the vector
+  * @param  vector: the vector to perform the operation on
+  */
+void vector_destroy(vector_t* vector);
+
+/**
  * @brief sort the given vector according to the comparator passed as argument
  * @param  vector: the vector to perform the operation on
  * @param  comp: a standard comparator function

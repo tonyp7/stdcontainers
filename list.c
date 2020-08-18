@@ -47,7 +47,7 @@ int list_create(list_t* list, size_t size_type)
 
 void list_clear(list_t* list)
 {
-    node_t* next;
+	node_t* next;
 	node_t* curr = list->begin;
 
 	while (curr != NULL) {
@@ -56,27 +56,33 @@ void list_clear(list_t* list)
 		curr = next;
 	}
 
-    list->size = 0;
-    list->begin = NULL;
-    list->end = NULL;
+	list->size = 0;
+	list->begin = NULL;
+	list->end = NULL;
+}
+
+void list_destroy(list_t* list)
+{
+	list_clear(list);
+	memset(list, 0x00, sizeof(list_t));
 }
 
 
 void* list_at(list_t* list, int n)
 {
-    if(n >= list->size) return NULL;
-    
-    int i=0;
-    node_t* curr = list->begin;
-    while(i != n){
-        curr = curr->next;
-        i++;
-    }
+	if (n >= list->size) return NULL;
 
-    return (void*)curr->data;
+	int i = 0;
+	node_t* curr = list->begin;
+	while (i != n) {
+		curr = curr->next;
+		i++;
+	}
+
+	return (void*)curr->data;
 }
 
-int list_set_comparator(list_t* list, int (*comp)(const void*, const void*)) 
+int list_set_comparator(list_t* list, int (*comp)(const void*, const void*))
 {
 	list->comparator = comp;
 	return 0;
@@ -86,12 +92,12 @@ int list_set_comparator(list_t* list, int (*comp)(const void*, const void*))
 node_t* list_push_back(list_t* list, const void* data)
 {
 	node_t* node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
-	if(!node) return NULL; /* memory alloc error */
-	
-	memcpy( node->data , data, list->size_type);
+	if (!node) return NULL; /* memory alloc error */
+
+	memcpy(node->data, data, list->size_type);
 
 	node->next = NULL; /* sent to the end so there is no next */
-	if ( list->end != NULL) {
+	if (list->end != NULL) {
 		node->previous = list->end;
 		list->end->next = node;
 		list->end = node;
@@ -103,7 +109,7 @@ node_t* list_push_back(list_t* list, const void* data)
 	}
 
 	list->size++;
-	
+
 	return node;
 }
 
@@ -138,16 +144,16 @@ node_t* list_push_front(list_t* list, const void* data)
 
 
 
-int list_pop_front(list_t* list, void* data) 
+int list_pop_front(list_t* list, void* data)
 {
 	if (list->begin) {
 		node_t* first = list->begin; /* save ptr to free it later */
-		
+
 		/* NULL can be passed as data. In that case value isn't sent back to caller */
 		if (data) {
 			memcpy(data, list->begin->data, list->size_type);
 		}
-		
+
 		if (list->end == list->begin) { /*edge case where list contains one element */
 			list->begin = NULL;
 			list->end = NULL;
@@ -156,11 +162,11 @@ int list_pop_front(list_t* list, void* data)
 			list->begin = list->begin->next;
 			list->begin->previous = NULL;
 		}
-		
+
 		free(first);
 		list->size--;
-        
-        return 0;
+
+		return 0;
 	}
 	else {
 		return -1;
@@ -202,12 +208,12 @@ int list_pop_back(list_t* list, void* data)
 
 void* list_front(list_t* list)
 {
-    if (list->begin) {
-        return (void*)list->begin->data;
-    }
-    else{
-        return NULL;
-    }
+	if (list->begin) {
+		return (void*)list->begin->data;
+	}
+	else {
+		return NULL;
+	}
 }
 
 
@@ -228,78 +234,78 @@ void* list_back(list_t* list)
  * At the end of the algorithm slow node will have done half the iteration as compared to fast
  * which will have reached the end of the list
  */
-static node_t* split_list(node_t* head)
-{
-	node_t* fast = head, * slow = head;
-	while (fast->next && fast->next->next)
-	{
-		fast = fast->next->next;
-		slow = slow->next;
-	}
-	node_t* temp = slow->next;
-	slow->next = NULL;
-	return temp;
-}
+ //static node_t* split_list(node_t* head)
+ //{
+ //	node_t* fast = head, * slow = head;
+ //	while (fast->next && fast->next->next)
+ //	{
+ //		fast = fast->next->next;
+ //		slow = slow->next;
+ //	}
+ //	node_t* temp = slow->next;
+ //	slow->next = NULL;
+ //	return temp;
+ //}
 
-static node_t* merge_lists(node_t* first, node_t* second, int (*comp)(const void*, const void*))
-{
-	/* first list is empty ? */
-	if (!first) {
-		return second;
-	}
-		
+ //static node_t* merge_lists(node_t* first, node_t* second, int (*comp)(const void*, const void*))
+ //{
+ //	/* first list is empty ? */
+ //	if (!first) {
+ //		return second;
+ //	}
+ //		
+ //
+ //	/* second list is empty ?*/
+ //	if (!second) {
+ //		return first;
+ //	}
+ //		
+ //	/* run the comparison */
+ //	if(   comp(&(first->data[0]), &(second->data[0])) < 0  )
+ //	{
+ //		first->next = merge_lists(first->next, second, comp);
+ //		first->next->previous = first;
+ //		first->previous = NULL;
+ //		return first;
+ //	}
+ //	else
+ //	{
+ //		second->next = merge_lists(first, second->next, comp);
+ //		second->next->previous = second;
+ //		second->previous = NULL;
+ //		return second;
+ //	}
+ //}
 
-	/* second list is empty ?*/
-	if (!second) {
-		return first;
-	}
-		
-	/* run the comparison */
-	if(   comp(&(first->data[0]), &(second->data[0])) < 0  )
-	{
-		first->next = merge_lists(first->next, second, comp);
-		first->next->previous = first;
-		first->previous = NULL;
-		return first;
-	}
-	else
-	{
-		second->next = merge_lists(first, second->next, comp);
-		second->next->previous = second;
-		second->previous = NULL;
-		return second;
-	}
-}
-
-/**
- * @brief A classic recursive merge sort for double linked list
- * This algorithm will produce stack overflows for lists ~1500 items.
- * As such an iterative approach is preferred almost all the time
- */
-static node_t* list_merge_sort_recursive(node_t* head, int (*comp)(const void*, const void*))
-{
-	if (!head || !head->next) {
-		return head;
-	}
-
-	/* split list in halves */
-	node_t* second = split_list(head);
-
-	/* sort each sub list */
-	head = list_merge_sort_recursive(head, comp);
-	second = list_merge_sort_recursive(second, comp);
-
-	/* merge them back together */
-	return merge_lists(head, second, comp);
-}
-
-
+ /**
+  * @brief A classic recursive merge sort for double linked list
+  * This algorithm will produce stack overflows for lists ~1500 items.
+  * As such an iterative approach is preferred almost all the time
+  */
+  //static node_t* list_merge_sort_recursive(node_t* head, int (*comp)(const void*, const void*))
+  //{
+  //	if (!head || !head->next) {
+  //		return head;
+  //	}
+  //
+  //	/* split list in halves */
+  //	node_t* second = split_list(head);
+  //
+  //	/* sort each sub list */
+  //	head = list_merge_sort_recursive(head, comp);
+  //	second = list_merge_sort_recursive(second, comp);
+  //
+  //	/* merge them back together */
+  //	return merge_lists(head, second, comp);
+  //}
 
 
-/**
- * @brief Used by list_merge_sort_bottom_up to merge two sorted lists
- * @see list_merge_sort_bottom_up
- */
+
+
+  /**
+   * @brief Used by list_merge_sort_bottom_up to merge two sorted lists
+   * @see list_merge_sort_bottom_up
+   */
 static node_t* list_merge_lists(node_t* list1, node_t* list2, int (*comp)(const void*, const void*))
 {
 	node_t* head = NULL;
@@ -308,12 +314,12 @@ static node_t* list_merge_lists(node_t* list1, node_t* list2, int (*comp)(const 
 	if (list1 == NULL) {
 		return list2;
 	}
-		
+
 	if (list2 == NULL) {
 		return list1;
 	}
-		
-	for(;;) {
+
+	for (;;) {
 		if (comp(&(list2->data[0]), &(list1->data[0])) < 0) {
 			*p_head = list2;
 			list2 = *(p_head = &(list2->next));
@@ -353,7 +359,7 @@ static int list_merge_sort_bottom_up(list_t* list, int (*comp)(const void*, cons
 	if (list->begin == NULL) {
 		return 0;
 	}
-		
+
 	/* Set all pointers to node as NULL */
 	memset(lists, 0, sizeof(lists));
 
@@ -368,7 +374,7 @@ static int list_merge_sort_bottom_up(list_t* list, int (*comp)(const void*, cons
 		if (i == MERGE_SORT_BOTTOM_UP_NUMLISTS) {
 			i--;
 		}
-			
+
 		lists[i] = node;
 		node = next;
 	}
@@ -377,10 +383,10 @@ static int list_merge_sort_bottom_up(list_t* list, int (*comp)(const void*, cons
 	for (i = 0; i < MERGE_SORT_BOTTOM_UP_NUMLISTS; i++) {
 		node = list_merge_lists(lists[i], node, comp);
 	}
-		
+
 	/* node now contains the final head of the sorted list so it's saved as such */
 	list->begin = node;
-	
+
 	/* restore previous links and list's last element */
 	list->begin->previous = NULL;
 	while (node->next != NULL) {
@@ -402,11 +408,11 @@ int list_sort(list_t* list)
 	else {
 		return -1;
 	}
-	
+
 }
 
 
-int list_sort_with(list_t* list, int(*comp)(const void*, const void*)) 
+int list_sort_with(list_t* list, int(*comp)(const void*, const void*))
 {
 	return list_merge_sort_bottom_up(list, comp);
 }
@@ -431,7 +437,7 @@ bool list_contains(list_t* list, const void* data)
 }
 
 
-int list_add_after(list_t* list, node_t* node, void* data) 
+int list_add_after(list_t* list, node_t* node, void* data)
 {
 	if (!data) return -1;
 
@@ -459,7 +465,7 @@ int list_add_after(list_t* list, node_t* node, void* data)
 		node->next->previous = new_node;
 		node->next = new_node;
 	}
-	
+
 	list->size++;
 
 	return 0;
@@ -481,13 +487,13 @@ static node_t* list_add_ordered_with(list_t* list, const void* data, int (*comp)
 	node_t* new_node = (node_t*)malloc(sizeof(node_t) + sizeof(uint8_t) * list->size_type);
 	if (!new_node) return NULL; /* memory alloc error */
 	memcpy(new_node->data, data, list->size_type);
-	
+
 	/* init position to the list beginning and copy data to the new node*/
 	node_t* current = list->begin;
 	node_t* previous = NULL;
 
 	/* find spot in list to add the new element */
-	while (current != NULL && comp( (&(current->data[0])), data) < 0) {
+	while (current != NULL && comp((&(current->data[0])), data) < 0) {
 		previous = current;
 		current = current->next;
 	}
