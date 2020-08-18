@@ -3,7 +3,9 @@ A collection of standard containers (lists, sorted lists, stacks, queues, deques
  
 _stdcontainers_ follows naming conventions of the C++ stl containers when possible, making people feel instantly at home when using this library.
 
-_stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed. 
+_stdcontainers_ is simple, straightforward C99 making it very friendly with low level programs and where portability is needed.
+
+If you are working in a pure C environment, or you do not have access to the C++ STL for any reason, _stdcontainers_ allows you to work with high level containers with zero overhead cost.
 
 # Content
 
@@ -13,7 +15,12 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Sorting a list](#sorting-a-list)
    - [List subtypes: sorted list, queue, double-ended queue (deque)](#list-subtypes-sorted-list-queue-double-ended-queue-deque)
  - [vector.h](#vectorh)
+   - [Basic example: a vector of integers](#basic-example-a-vector-of-integers)
+   - [Iterating over a vector](#iterating-over-a-vector)
+   - [Sorting a vector](#sorting-a-vector)
  - [Benchmarks](#benchmarks)
+   - [List benchmarks]
+   - [Vector benchmarks]
 
 # list.h
 
@@ -226,3 +233,27 @@ This should create an output similar to this:
 ```
 
 Internally, a vector is sorted using the quick sort algorithm.
+
+# Benchmarks
+
+Due to the very low level of its implementation, _stdcontainers_ is fast. How fast? unfortunately slower than the STL library and its many years of thorough optimization performed by very experienced software engineer, but fast enough that speed should never be an issue.
+
+You will find below macro benchmarks done with stdcontainers pitted against C++ std::list and std::vector to give you an idea of what _stdcontainers_ is capable of.
+
+## List benchmark
+
+### Pushing 1 million items to a list
+
+### Iterating over 1 million items in a list
+
+### Sorting 1 million items in a list
+
+## Vector benchmark
+
+### Pushing 1 million items to a vector
+
+### Iterating
+
+### Sorting
+
+
