@@ -13,7 +13,6 @@ _stdcontainers_ is simple, straightforward C99 making it very friendly with low 
    - [Sorting a list](#sorting-a-list)
    - [List subtypes: sorted list, queue, double-ended queue (deque)](#list-subtypes-sorted-list-queue-double-ended-queue-deque)
  - [vector.h](#vectorh)
- - [btree.h](#btreeh)
  - [Benchmarks](#benchmarks)
 
 # list.h
@@ -179,7 +178,51 @@ for(int i=0; i<vector.size; i++){
 }
 ```
 
-If your code is mono-threaded and no insertion/deletion are done while iterating, both methods are valid. Please do note that no 
+If your code is mono-threaded and no insertion/deletion are done while iterating, both methods are valid. There is no performance advantage/didsadvantage to doing one or the other so it is recommended to use vector_at at all time.
 
+### Sorting a vector
 
+Sorting a vector works exactly the same as sorting a list. A standard comparator must be define, similarly to a list. e.g:
 
+```c
+int int_comparator(const void* a, const void* b)
+{
+    return *((int*)a) - *((int*)b);
+}
+```
+
+Then sorting a vector is as simple as calling vector_sort.
+
+```c
+vector_sort(&vector, &int_comparator);
+```
+
+Here's a complete example pushing 10 random integers to a vector and sorting them:
+
+```c
+vector_t vector;
+vector_create(&vector, sizeof(int));
+for(int i=0; i < 10; i++){
+    int data = rand() % 100;
+    printf("%d ", data);
+    vector_push_back(&vector, &data);
+}
+
+printf("\n");
+
+vector_sort(&vector, &int_comparator);
+int* value;
+for(int i=0; i < vector.size; i++){
+    value = (int*)vector_at(&vector, i);
+    printf("%d ", *value);
+}
+```
+
+This should create an output similar to this:
+
+```
+83 86 77 15 93 35 86 92 49 21                                                                                                                                                     
+15 21 35 49 77 83 86 86 92 93
+```
+
+Internally, a vector is sorted using the quick sort algorithm.
