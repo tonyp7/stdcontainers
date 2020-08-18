@@ -220,8 +220,8 @@ for(int i=0; i < vector.size; i++){
 
 This should create an output similar to this:
 
-```
-83 86 77 15 93 35 86 92 49 21                                                                                                                                                     
+```bash
+83 86 77 15 93 35 86 92 49 21
 15 21 35 49 77 83 86 86 92 93
 ```
 
