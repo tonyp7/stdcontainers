@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project (benchmark)
+include_directories(../)
+set(SOURCES benchmark.cpp ../list.c ../vector.c)
+add_executable(benchmark ${SOURCES})
+target_compile_options (benchmark PUBLIC -Wall -O2)
