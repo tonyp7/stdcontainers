@@ -1,4 +1,4 @@
-# Running benchmark
+# Benchmark
 
 Use the following command to build and run the benchmark:
 
