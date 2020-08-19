@@ -19,8 +19,6 @@ If you are working in a pure C environment, or you do not have access to the C++
    - [Iterating over a vector](#iterating-over-a-vector)
    - [Sorting a vector](#sorting-a-vector)
  - [Benchmarks](#benchmarks)
-   - [List benchmarks]
-   - [Vector benchmarks]
 
 # list.h
 
@@ -236,24 +234,23 @@ Internally, a vector is sorted using the quick sort algorithm.
 
 # Benchmarks
 
-Due to the very low level of its implementation, _stdcontainers_ is fast. How fast? unfortunately slower than the STL library and its many years of thorough optimization performed by very experienced software engineer, but fast enough that speed should never be an issue.
+Due to the very low level of its implementation, _stdcontainers_ is fast. There's a benchmark subfolder you can check out where stdcontainers is pitted against the C++ STL.
 
-You will find below macro benchmarks done with stdcontainers pitted against C++ std::list and std::vector to give you an idea of what _stdcontainers_ is capable of.
+Results shown below are on a core i7 7700k, 16GB of RAM, Ubuntu 20.04. Code is compiled with -Wall -O2 flags:
 
-## List benchmark
-
-### Pushing 1 million items to a list
-
-### Iterating over 1 million items in a list
-
-### Sorting 1 million items in a list
-
-## Vector benchmark
-
-### Pushing 1 million items to a vector
-
-### Iterating
-
-### Sorting
+|            |    list_t    |  std::list   | note |
+| ---------- | ------------ | ------------ | ---- |
+| push_back  |      0.1164s |      0.1177s | time to push 10M integers to a list |
+|  iterate  |      0.1107s |      0.0912s | time to iterate through 40M elements |
+| sort  |      0.4294s |      0.4008s | time to sort 1M elements |
 
 
+|            | vector_t     |  std::vector | note |
+| ---------- | ------------ | ------------ | ---- |
+| push_back  |      0.0360s |      0.0415s | time to push 10M integers to a vector |
+| iterate  |      0.0136s |      0.0136s | time to iterate through 40M elements |
+| sort  |      0.0902s |      0.0547s | time to sort 1M elements |
+
+True to its core concepts of "0 cost overhead" and "you wouldn't be able to handcode it faster", the STL is blazingly fast in many scenarios but _stdcontainers_ is within margin of error for both iterations and push_back. Sorting seems to be consistently faster on the STL.
+
+These numbers demonstrate that _stdcontainers_ is competitive when it comes to speed.
