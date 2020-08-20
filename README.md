@@ -153,11 +153,26 @@ Below is a table summarizing what can and can't be done with the specialized con
 
 # vector.h
 
-vector.h implements a dynamic array, and is capable of holding any kind of data. Because of it's nature, a vector is extremely efficient at accessing random elements and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
-vector.h is the underlying implementation of stack.
+vector.h implements a dynamic array, and is capable of holding any kind of data. Because of its nature, a vector is extremely efficient at accessing random elements and adding/removing elements at its end. However, it fares very poorly when inserting/removing elements anywhere else.
+vector.h is the underlying implementation of stack_t.
 
 ## Basic example: a vector of integers
 
+```c
+vector_t vector;
+vector_create(&vector, sizeof(int));
+
+/* push 10 integers to the vector */
+for(int i=0; i < 10; i++){
+    vector_push_back(&vector, &i);
+}
+
+/* clear the vector without detroying it */
+vector_clear(&vector);
+
+/* destroy the vector: any operation on the vector is now invalid */
+vector_destroy(&vector);
+```
 
 ## Iterating over a vector
 
