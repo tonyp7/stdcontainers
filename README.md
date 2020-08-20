@@ -66,6 +66,8 @@ for(node_t* node = list.begin; node != NULL; node = node->next){
 }
 ```
 
+C++ hides list nodes behind the iteration abstraction. While it would be technically possible to implement something similar in C and it has been done multiple times, the added value is debatable. As a result, this library voluntarily chooses be close to the metal. 
+
 ## Storing complex types
 
 Let's assume the following structure:
