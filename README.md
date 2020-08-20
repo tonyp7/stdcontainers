@@ -38,9 +38,9 @@ for (int i = 0; i < 10; i++) {
     list_push(&list, &data);
 }
 
-printf("There are now %d elements in the list\n", list->size);
+printf("There are now %d elements in the list\n", list.size);
 list_clear(&list);
-printf("There are now %d elements in the list\n", list->size);
+printf("There are now %d elements in the list\n", list.size);
 ```
 
 ## Iterating over a list
