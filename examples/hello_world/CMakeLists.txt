@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project (hello_world)
+include_directories(../../)
+set(SOURCES main.c ../../list.c)
+add_executable(hello_world ${SOURCES})
+target_compile_options (hello_world PUBLIC -Wall -std=c99)
