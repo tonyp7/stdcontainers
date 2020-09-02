@@ -18,6 +18,7 @@ If you are working in a pure C environment, or you do not have access to the C++
    - [Basic example: a vector of integers](#basic-example-a-vector-of-integers)
    - [Iterating over a vector](#iterating-over-a-vector)
    - [Sorting a vector](#sorting-a-vector)
+ - [forward_list.h](#forward_listh)
  - [Benchmarks](#benchmarks)
 
 # list.h
@@ -248,6 +249,12 @@ This should create an output similar to this:
 ```
 
 Internally, a vector is sorted using the quick sort algorithm.
+
+# forward_list.h
+
+forward_list.h implements a singly linked list, similarly to STL's include <forward_list>. Forward lists cannot be iterated backwards, but they have the advantage of being slightly more lightweight as compared to their traditional list counterpart. The overhead on each node is half that of a doubly linked list, dropping the pointer to the previous node (64 or 32 bit depending on the architecture).
+
+As a result, embedded systems with limited ram should consider forward_list.h instead of list.h. The loss of versatility is often not worth it on a modern PC.
 
 # Benchmarks
 
